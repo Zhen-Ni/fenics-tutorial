@@ -57,5 +57,3 @@ error_max = np.max(np.abs(vertex_values_u_D - vertex_values_u))
 print('error_L2  =', error_L2)
 print('error_max =', error_max)
 
-# Hold plot
-plt.show()
