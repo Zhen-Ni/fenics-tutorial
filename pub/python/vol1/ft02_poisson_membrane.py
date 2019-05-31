@@ -1,9 +1,7 @@
 """
 FEniCS tutorial demo program: Deflection of a membrane.
-
   -Laplace(w) = p  in the unit circle
             w = 0  on the boundary
-
 The load p is a Gaussian function centered at (0, 0.6).
 """
 
@@ -11,6 +9,9 @@ from __future__ import print_function
 from fenics import *
 from mshr import *
 import numpy as np
+
+import matplotlib.pyplot as plt
+
 
 # Create mesh and define function space
 domain = Circle(Point(0, 0), 1)
@@ -44,6 +45,7 @@ solve(a == L, w, bc)
 # Plot solution
 p = interpolate(p, V)
 plot(w, title='Deflection')
+plt.figure()
 plot(p, title='Load')
 
 # Save solution to file in VTK format
@@ -54,12 +56,12 @@ vtkfile_p << p
 
 # Curve plot along x = 0 comparing p and w
 import numpy as np
-import matplotlib.pyplot as plt
 tol = 0.001  # avoid hitting points outside the domain
 y = np.linspace(-1 + tol, 1 - tol, 101)
 points = [(0, y_) for y_ in y]  # 2D points
 w_line = np.array([w(point) for point in points])
 p_line = np.array([p(point) for point in points])
+plt.figure()
 plt.plot(y, 50*w_line, 'k', linewidth=2)  # magnify w
 plt.plot(y, p_line, 'b--', linewidth=2)
 plt.grid(True)
@@ -68,6 +70,6 @@ plt.legend(['Deflection ($\\times 50$)', 'Load'], loc='upper left')
 plt.savefig('poisson_membrane/curves.pdf')
 plt.savefig('poisson_membrane/curves.png')
 
-# Hold plots
-interactive()
-plt.show()
+## Hold plots
+#interactive()
+#plt.show()
