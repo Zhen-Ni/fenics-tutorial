@@ -1,12 +1,9 @@
 """
 FEniCS tutorial demo program: Diffusion of a Gaussian hill.
-
   u'= Laplace(u) + f  in a square domain
   u = u_D             on the boundary
   u = u_0             at t = 0
-
   u_D = f = 0
-
 The initial condition u_0 is chosen as a Gaussian hill.
 """
 
@@ -38,6 +35,7 @@ u_n = interpolate(u_0, V)
 u = TrialFunction(V)
 v = TestFunction(V)
 f = Constant(0)
+#f = Expression('x[0]>1.5?(x[1]>1.5?1.0:0.0):0.0', degree=1)
 
 F = u*v*dx + dt*dot(grad(u), grad(v))*dx - (u_n + dt*f)*v*dx
 a, L = lhs(F), rhs(F)
@@ -64,4 +62,4 @@ for n in range(num_steps):
     u_n.assign(u)
 
 # Hold plot
-interactive()
+#interactive()
