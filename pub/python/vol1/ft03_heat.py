@@ -1,11 +1,9 @@
 """
 FEniCS tutorial demo program: Heat equation with Dirichlet conditions.
 Test problem is chosen to give an exact solution at all nodes of the mesh.
-
   u'= Laplace(u) + f  in the unit square
   u = u_D             on the boundary
   u = u_0             at t = 0
-
   u = 1 + x^2 + alpha*y^2 + \beta*t
   f = beta - 2 - 2*alpha
 """
@@ -13,6 +11,7 @@ Test problem is chosen to give an exact solution at all nodes of the mesh.
 from __future__ import print_function
 from fenics import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 T = 2.0            # final time
 num_steps = 10     # number of time steps
@@ -59,15 +58,16 @@ for n in range(num_steps):
     solve(a == L, u, bc)
 
     # Plot solution
+    plt.figure()
     plot(u)
 
     # Compute error at vertices
     u_e = interpolate(u_D, V)
-    error = np.abs(u_e.vector().array() - u.vector().array()).max()
+    error = np.abs(u_e.vector() - u.vector()).max()
     print('t = %.2f: error = %.3g' % (t, error))
 
     # Update previous solution
     u_n.assign(u)
 
 # Hold plot
-interactive()
+#interactive()
